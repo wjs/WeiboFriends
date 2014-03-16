@@ -1,0 +1,136 @@
+{% extends "layout.html" %}
+{% block content %}
+<script type=text/javascript>
+  	$(function() {
+  		$('#search_input').on('click', function () {
+			$(this).select();
+		});
+		$('#search_input').keyup(function (event) {
+			search();
+		});
+		$('iframe').load(function() {
+			$('#loading').hide();
+		    $('iframe').show();
+		});
+		
+	});
+	function search() {
+		var keyword = $.trim($('#search_input').val());
+		if (keyword != '') {
+			$('#search_result_ul').html('');
+			$.ajax({
+				type: 'GET',
+				url: $SCRIPT_ROOT + '/search',
+				contentType: 'application/json; charset=utf-8',
+				data: {'keyword': keyword},
+				success: function(data) {
+					json = eval("("+data+")");
+					var htmlStr = '';
+					for (var i = 0; i < json.length; i++) {
+						htmlStr = '<li id="uid_' + json[i]['uid'] + '">' + json[i]['nick'] + '</li>';
+						$('#search_result_ul').append(htmlStr);
+					}
+					$('#search_result_ul li').click(function(event) {
+						$('#loading').show();
+						$('iframe').hide();
+						uid = $(this).attr('id').replace('uid_', '');
+						$.ajax({
+							type: 'GET',
+							url: $SCRIPT_ROOT + '/change_graph',
+							contentType: 'application/html; charset=utf-8',
+							data: {'uid': uid},
+							success: function(data) {
+								json = eval("("+data+")");
+								if (json.isSucceed) {
+									$('#user_info').html('uid:"'+json.uid+'", nick:"'+json.nick+'", follows:"'+json.follows+'", fans:"'+json.fans+'", db_follows:"'+json.db_follows+'", db_fans:"'+json.db_fans+'"}');
+									$('iframe').attr('src', '/graph?uid='+json.uid);
+								} else {
+									alert('Get graph failed.')
+								}
+							},
+							error: function(data) {
+								$('#loading').hide();
+								$('iframe').show();
+								alert('Ajax to get graph occur error.')
+							}
+						});
+					});
+				}
+			});
+		}
+	}
+</script>
+
+<div id="main_wrapper">
+	<div id="left_container">
+		<form action="/autocrawl" method="post">
+			<input type="text" name="username" id="username" value="13816525405">
+			<input type="password" name="pwd" id="pwd">
+			<input type="submit" value="Login" id="login_btn">
+		</form>
+		<input type="text" name="search_input" id="search_input" placeholder="Search uid or nick">
+		<ul id="search_result_ul"></ul>
+	</div>
+	<div id="right_container">
+		<span id="user_info"></span>
+		<iframe src="" frameborder="0"></iframe>
+		<div id='loading'><img src="{{ url_for('static', filename='images/Loading_GIF.gif') }}" alt="Loading..."></div>​
+	</div>
+</div>
+
+<style scoped>
+	* {
+		margin: 0 0;
+		padding: 0 0;
+	}
+	#main_wrapper, #left_container, #right_container, #user_info, #loading {
+		float: left;
+	}
+	#left_container {
+		width: 230px;
+		min-height: 1000px;
+		padding: 45px 0 0 10px;
+		color: #fff;
+		background-color: #4e4e4e;
+	}
+	#search_input {
+		width: 200px;
+		height: 16px;
+		padding: 5px 5px 5px 5px;
+		border-radius: 5px;
+	}
+	#search_result_ul {
+		margin: 10px 0 0 0;
+	}
+	#search_result_ul li:hover {
+		background-color: #999;
+		cursor: pointer;
+	}
+	#right_container {
+		padding: 15px 0 0 40px;
+		width: 1000px;
+	}
+	#user_info {
+		width: 800px;
+		height: 30px;
+	}
+	#loading {
+		padding-top: 200px;
+		width: 1000px;
+		height: 550px;
+		background-color: #9b9b9b;
+		opacity: 0.45;
+		font-size: 300%;
+	    color: #fff;
+	    text-align: center;
+	    margin: 0 auto;
+	    display: none;
+	}
+	iframe {
+		float: left;
+		width: 1000px;
+		height: 550px;
+		border: 1px solid #dedede;
+	}
+</style>
+{% endblock %}

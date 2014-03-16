@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta http-Equiv="Cache-Control" Content="no-cache">
+<meta http-Equiv="Pragma" Content="no-cache">
+<meta http-Equiv="Expires" Content="0">
+
+<style>
+.node {
+  stroke: #fff;
+  stroke-width: 0.1px;
+}
+.link {
+  stroke: #999;
+  stroke-opacity: .6;
+}
+</style>
+
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script type=text/javascript src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type=text/javascript>
+  var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script> 
+<script>
+
+var width = 960,
+    height = 500;
+
+var color = d3.scale.category20();
+
+var force = d3.layout.force()
+    .charge(-120)
+    .linkDistance(function(d) { return d.value*20; })
+    .size([width, height]);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+d3.json("{{ url_for('static', filename='data/'+uid+'.json') }}", function(error, graph) {
+  force
+      .nodes(graph.nodes)
+      .links(graph.links)
+      .start();
+
+  var link = svg.selectAll(".link")
+      .data(graph.links)
+    .enter().append("line")
+      .attr("class", "link")
+      .style("stroke-width", function(d) { return Math.sqrt(d.value); });
+
+  var node = svg.selectAll(".node")
+      .data(graph.nodes)
+    .enter().append("circle")
+      .attr("class", "node")
+      .attr("r", 20)
+      .style("fill", function(d) { return color(d.group); })
+      .on('dblclick', dblclick)
+      .call(force.drag);
+
+
+  node.append("title")
+      .text(function(d) { return d.name; });
+
+
+  force.on("tick", function() {
+    link.attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    node.attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });
+  });
+
+});
+
+function dblclick(d) {
+  // alert('uid:' + d.uid + ', nick:' + d.name + ', follows:' + d.follows);
+  $('#loading', window.parent.document).show();
+  $('iframe', window.parent.document).hide();
+  var uid = d.uid;
+  $.ajax({
+    type: 'GET',
+    url: $SCRIPT_ROOT + '/change_graph',
+    contentType: 'application/html; charset=utf-8',
+    data: {'uid': uid},
+    success: function(data) {
+      json = eval("("+data+")");
+      if (json.isSucceed) {
+        $('#user_info', window.parent.document).html('uid:"'+json.uid+'", nick:"'+json.nick+'", follows:"'+json.follows+'", fans:"'+json.fans+'", db_follows:"'+json.db_follows+'", db_fans:"'+json.db_fans+'"}');
+        $('iframe', window.parent.document).attr('src', '/graph?uid='+json.uid);
+      } else {
+        alert('Get graph failed.')
+      }
+    },
+    error: function(data) {
+      $('#loading', window.parent.document).hide();
+      $('iframe', window.parent.document).show();
+      alert('Ajax to get graph occur error.')
+    }
+  });
+}
+</script>
