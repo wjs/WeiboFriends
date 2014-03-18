@@ -1,0 +1,144 @@
+* {
+	margin: 0 0;
+	padding: 0 0;
+}
+body {
+	font-family: verdana,sans-serif;
+	font-size: 12px;
+	line-height: 1.7em;
+	background: #19191a;
+	text-align: center;
+	min-width: 960px;
+}
+ol, ul {
+list-style: none;
+}
+div {
+	display: block;
+}
+a {
+	text-decoration: none;
+}
+.hide {
+	display: none;
+}
+
+#header {
+	float: left;
+	background: #fff;
+	width: 100%;
+	min-width: 960px;
+	height: 120px;
+	clear: both;
+	display: inline;
+}
+.wrap {
+	width: 940px;
+	margin: 0 auto;
+	text-align: left;
+}
+#branding {
+	float: left;
+	width: 380px;
+	height: 120px;
+}
+	#branding .logo {
+		float: left;
+		width: 100px;
+		height: 100px;
+		margin: 5px 0;
+		background: url(/static/images/logo.png) no-repeat;
+		background-size: 100% 100%;
+	}
+	#branding .tagline {
+		float: left;
+		width: 220px;
+		height: 40px;
+		margin: 40px 0 40px 20px;
+		color: #76a0c0;
+		font-size: 160%;
+		font-weight: bold;
+		line-height: 40px;
+	}
+#header .nav {
+	float: right;
+	width: 500px;
+	height: 40px;
+	margin: 40px 0;
+	border-radius: 10px;
+	background-color: #eee;
+}
+#header .nav li {
+	float: left;
+}
+#header .nav li:first-child {
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+#header .nav li:last-child { 
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+#header .nav li:hover {
+	background-color: #dadada;
+}
+#header .nav a {
+	float: left;
+	width: 92px;
+	height: 40px;
+	color: #76a0c0;
+	font-size: 130%;
+	text-align: center;
+	line-height: 40px;
+}
+#header .nav a:hover {
+	cursor: pointer;
+}
+
+#header .nav input {
+	width: 206px;
+	height: 20px;
+	margin: 5px 4px;
+	padding: 5px 5px;
+	border-radius: 10px;
+	border: none;
+}
+
+
+#body {
+	background: #fff;
+	width: 100%;
+	min-width: 960px;
+	float: left;
+	clear: both;
+	display: inline;
+	border-bottom: 15px solid #fff;
+}
+
+.graph {
+	height: 550px;
+	border-radius: 15px;
+	border: solid 1px #76a0c0;
+}
+
+
+.bubble-box {
+	display: none;
+	position: relative;
+	width: 300px;
+	height: 250px;
+	top: 40px;
+	left: 180px;
+	background: url(/static/images/bubble-box.png) no-repeat;
+	background-size: 100% 100%;
+}
+#header .nav .bubble-box input {
+	width: 240px;
+	margin: 5px 15px;
+	border-radius: 5px;
+}
+#header .nav .bubble-box #login-btn {
+	margin: 15px 0 0 165px;
+	width: 100px;
+	height: 30px;
+}

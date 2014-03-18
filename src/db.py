@@ -59,7 +59,7 @@ def query_user(uid):
             return cursor.fetchall()[0]
         return None
     except Exception, e:
-        print '>>>[Error: DB query user]', uid, e
+        print '>>>[Error: DB query_user]', uid, e
         return None
 
 

@@ -19,6 +19,17 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 
+def crawl_by_uid(uid, username, pwd):
+    if login(username, pwd):
+        print 'Login WEIBO succeeded'
+    else:
+        print 'Login WEIBO failed'
+        return None
+
+    get_weibo_relation(uid)
+
+
+
 def auto_crawl(username, pwd):
     if login(username, pwd):
         print 'Login WEIBO succeeded'
@@ -30,7 +41,6 @@ def auto_crawl(username, pwd):
     if users:
         for user in users:
             get_weibo_relation(user[0])
-
 
 
 def get_self_weibo_relation(username, pwd):
@@ -138,11 +148,14 @@ def get_userinfo(uid):
 
 
 def get_weibo_relation(uid):
+    if not db.is_user_in_db(uid):
+        get_userinfo(uid)
+
     user = db.query_user(uid)
     if user:
         print user
         try:
-            totalFollowsNum = user[2]
+            totalFollowsNum = l[2]
 
             req = urllib2.Request(url='http://weibo.com/'+uid+'/follow',)
             result = urllib2.urlopen(req)

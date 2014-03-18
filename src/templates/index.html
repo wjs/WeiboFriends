@@ -63,11 +63,20 @@
 
 <div id="main_wrapper">
 	<div id="left_container">
-		<form action="/autocrawl" method="post">
-			<input type="text" name="username" id="username" value="13816525405">
-			<input type="password" name="pwd" id="pwd">
-			<input type="submit" value="Login" id="login_btn">
+		<div class="menu">
+			<ul>
+				<li>Search</li>
+				<li>Detail</li>
+				<li>Crawl</li>
+			</ul>
+		</div>
+		<form action="/crawl" method="post">
+			<input type="text" name="crawl_uid" id="crawl_uid" placeholder="uid for crawl">
+			<input type="text" name="username" id="username" value="13816525405" placeholder="account">
+			<input type="password" name="pwd" id="pwd" placeholder="password">
+			<input type="submit" value="Start Crawl" id="login_btn">
 		</form>
+		<br><hr><br>
 		<input type="text" name="search_input" id="search_input" placeholder="Search uid or nick">
 		<ul id="search_result_ul"></ul>
 	</div>
@@ -87,11 +96,14 @@
 		float: left;
 	}
 	#left_container {
-		width: 230px;
+		width: 250px;
 		min-height: 1000px;
-		padding: 45px 0 0 10px;
+		padding-left: 10px;
 		color: #fff;
-		background-color: #4e4e4e;
+		background-color: #3d4f5d;
+	}
+	.menu {
+		
 	}
 	#search_input {
 		width: 200px;
