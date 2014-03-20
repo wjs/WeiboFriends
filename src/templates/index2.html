@@ -5,16 +5,17 @@
 	<div class="wrap">
 		<div id="branding">
 			<div class="logo"></div>
-			<div class="tagline">Weibo Friends Graph</div>
+			<div class="tagline">Weibo Relation Graph</div>
 		</div>
 		<ul class="nav">
 			<li class="home selected"><a href="/">Home</a></li>
 			<li class="detail"><a>detail</a></li>
 			<li class="crawl"><a id="crawl-btn">crawl</a></li>
 			<li class="search">
-				<input type="text" name="search" id="search" placeholder="Search">
+				<input type="search" name="search-input" id="search-input" placeholder="Search" list="search-result" autocomplete="off">
+				<datalist id="search-result"></datalist>
 			</li>
-			<div class="bubble-box">
+			<div class="bubble-box" tabindex="0" hidefocus="true">
 				<form action="/crawl" method="post">
 					<input type="text" name="crawl_uid" id="crawl_uid" placeholder="uid for crawl">
 					<input type="text" name="username" id="username" placeholder="account">
@@ -30,6 +31,13 @@
 	<div class="wrap">
 		<div class="graph">
 			<iframe src="" frameborder="0"></iframe>
+			<div id='loading'>
+				<img src="{{ url_for('static', filename='images/Loading_GIF.gif') }}" alt="Loading...">
+			</div>​
+		</div>
+		<div class="toolbar">
+			<span id="show-follows-btn"></span>
+			<ul id="search-result-box"></ul>
 		</div>
 	</div>
 </div>

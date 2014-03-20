@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def index2():
+def index():
     return render_template('index2.html')
 
 

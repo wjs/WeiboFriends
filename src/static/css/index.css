@@ -2,10 +2,13 @@
 	margin: 0 0;
 	padding: 0 0;
 }
+*:focus {
+	outline: none;
+}
 body {
 	font-family: verdana,sans-serif;
 	font-size: 12px;
-	line-height: 1.7em;
+	line-height: 1.8em;
 	background: #19191a;
 	text-align: center;
 	min-width: 960px;
@@ -33,7 +36,7 @@ a {
 	display: inline;
 }
 .wrap {
-	width: 940px;
+	width: 960px;
 	margin: 0 auto;
 	text-align: left;
 }
@@ -64,12 +67,13 @@ a {
 	float: right;
 	width: 500px;
 	height: 40px;
-	margin: 40px 0;
+	margin: 40px 30px 40px 0;
 	border-radius: 10px;
 	background-color: #eee;
 }
 #header .nav li {
 	float: left;
+	height: 40px;
 }
 #header .nav li:first-child {
 	border-top-left-radius: 10px;
@@ -95,50 +99,126 @@ a {
 	cursor: pointer;
 }
 
-#header .nav input {
-	width: 206px;
-	height: 20px;
+#search-input {
+	width: 215px;
+	height: 30px;
 	margin: 5px 4px;
 	padding: 5px 5px;
 	border-radius: 10px;
 	border: none;
+	font-size: 120%;
+}
+
+.bubble-box {
+	display: none;
+	position: relative;
+	width: 300px;
+	height: 240px;
+	top: 40px;
+	left: 180px;
+	background: url(/static/images/bubble-box.png) no-repeat;
+	background-size: 100% 100%;
+	z-index: 1000;
+}
+#header .nav .bubble-box input {
+	width: 260px;
+	height: 24px;
+	margin: 5px 15px;
+	border-radius: 5px;
+	font-size: 120%;
+}
+#header .nav .bubble-box input:focus {
+	border: 1px solid #ccc;
+}
+#header .nav .bubble-box #login-btn {
+	margin: 15px 0 0 185px;
+	width: 100px;
+	height: 33px;
+	background-color: #d6d6d6;
+}
+#header .nav .bubble-box #login-btn:hover {
+	background-color: #ccc;
 }
 
 
+/*--------------------------------------------*/
 #body {
+	float: left;
 	background: #fff;
 	width: 100%;
 	min-width: 960px;
-	float: left;
 	clear: both;
 	display: inline;
 	border-bottom: 15px solid #fff;
 }
 
 .graph {
+	float: left;
+	width: 930px;
 	height: 550px;
 	border-radius: 15px;
 	border: solid 1px #76a0c0;
+	overflow: hidden;
 }
 
-
-.bubble-box {
-	display: none;
+iframe {
+	float: left;
+	width: 100%;
+	height: 100%;
+}
+#loading {
+	width: 100%;
+	height: 100%;
+	background-color: #9b9b9b;
+	opacity: 0.4;
+	font-size: 300%;
+    color: #fff;
+    text-align: center;
+    margin: 0 auto;
+    display: none;
+}
+#loading img {
 	position: relative;
-	width: 300px;
-	height: 250px;
-	top: 40px;
-	left: 180px;
-	background: url(/static/images/bubble-box.png) no-repeat;
-	background-size: 100% 100%;
+	top: -300px;
 }
-#header .nav .bubble-box input {
-	width: 240px;
-	margin: 5px 15px;
-	border-radius: 5px;
+
+/*--------------------------------*/
+.toolbar {
+	float: left;
+	width: 20px;
+	padding-top: 20px;
 }
-#header .nav .bubble-box #login-btn {
-	margin: 15px 0 0 165px;
-	width: 100px;
+.toolbar span {
+	margin-bottom: 10px;
+}
+#search-result-btn {
+	float: left;
+	width: 20px;
+	height: 60px;
+	background-color: #ddd;
+}
+#show-follows-btn {
+	float: left;
+	width: 20px;
+	height: 60px;
+	background-color: #ddd;	
+}
+
+#search-result-box {
+	display: none;
+	width: 224px;
+	position: relative;
+	top: -60px;
+	left: -230px;
+	z-index: 100;
+}
+#search-result-box li {
+	width: 100%;
 	height: 30px;
+	margin-bottom: 2px;
+	color: #000;
+	background-color: #eee;
+}
+#search-result-box li:hover {
+	background-color: #ddd;
 }
