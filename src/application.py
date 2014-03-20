@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index2.html')
+    return render_template('index.html')
 
 
 @app.route('/search', methods=['GET'])
@@ -53,7 +53,7 @@ def login():
 	username = request.form['username']
 	pwd = request.form['pwd']
 	graph.genarate_graph_from_web(username, pwd)
-	return render_template('index2.html')
+	return render_template('index.html')
 
 @app.route('/crawl', methods=['POST'])
 def autocrawl():
@@ -61,7 +61,7 @@ def autocrawl():
 	username = request.form['username']
 	pwd = request.form['pwd']
 	weibo_crawl.crawl_by_uid(crawl_uid, username, pwd)
-	return render_template('index2.html')
+	return render_template('index.html')
 
 
 if __name__ == '__main__':

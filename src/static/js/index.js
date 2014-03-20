@@ -22,6 +22,11 @@ $(function() {
 	$('.nav input').click(function (event) {
 		$(this).select();
 	});
+	$('#search-input').keyup(function (event) {
+		if (event.keyCode == 13) {
+			alert('aaaaaaaa--');
+		}
+	});
 	$('#search-input').on('input', function (event) {
 		if (event.keyCode == 13) {
 			$('#loading').show();
@@ -58,9 +63,10 @@ $(function() {
 					var opt = $('<option id="uid_' + json[i]['uid'] + '"></option>').attr('value', json[i]['nick']);
 					dataList.append(opt);		
 				}
-				$("#search-result option").click(function (event) {
-					var uid = $(this).attr('id').replace('uid_', '');
-					alert(uid);
+				$("#search-result option").each(function(index) {
+				 	$(this).click(function (event) {
+				 		alert('aaa');
+				 	});
 				});
 				
 			},"json");

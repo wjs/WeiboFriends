@@ -58,7 +58,6 @@ d3.json("{{ url_for('static', filename='data/'+uid+'.json') }}", function(error,
       .on('dblclick', dblclick)
       .call(force.drag);
 
-
   node.append("title")
       .text(function(d) { return d.name; });
 
