@@ -8,32 +8,34 @@
 			<div class="tagline">Weibo Relation Graph</div>
 		</div>
 		<ul class="nav">
-			<li class="home selected"><a href="/">Home</a></li>
-			<li class="detail"><a>detail</a></li>
-			<li class="crawl"><a id="crawl-btn">crawl</a></li>
-			<li class="search">
+			<li class="selected"><a href="/">Home</a></li>
+			<li><a>Detail</a></li>
+			<li>
+				<a id="crawl-btn">Crawl</a>
+				<div class="bubble-box" tabindex="0" hidefocus="true">
+					<form action="/crawl" method="post">
+						<input type="text" name="crawl_uid" id="crawl_uid" placeholder="uid for crawl">
+						<input type="text" name="username" id="username" placeholder="account">
+						<input type="password" name="pwd" id="pwd" placeholder="password">
+						<input type="submit" value="Start Crawl" id="login-btn">
+					</form>
+				</div>
+			</li>
+			<li>
 				<input type="search" name="search-input" id="search-input" placeholder="Search" list="search-result" autocomplete="off">
 				<datalist id="search-result"></datalist>
 			</li>
-			<div class="bubble-box" tabindex="0" hidefocus="true">
-				<form action="/crawl" method="post">
-					<input type="text" name="crawl_uid" id="crawl_uid" placeholder="uid for crawl">
-					<input type="text" name="username" id="username" placeholder="account">
-					<input type="password" name="pwd" id="pwd" placeholder="password">
-					<input type="submit" value="Start Crawl" id="login-btn">
-				</form>
-			</div>
 		</ul>
 	</div>
 </div>
 <hr class="hide">
 <div id="body">
 	<div class="wrap">
-		<div class="graph">
-			<iframe src="/change_graph?uid=329326189" frameborder="0"></iframe>
-			<div id='loading'>
+		<div id="graph">
+			<!-- <iframe src="/graph" frameborder="0"></iframe>
+			<div id='loading-div'>
 				<img src="{{ url_for('static', filename='images/Loading_GIF.gif') }}" alt="Loading...">
-			</div>​
+			</div>​ -->
 		</div>
 		<div class="toolbar">
 			<span id="show-follows-btn"></span>
@@ -42,4 +44,5 @@
 	</div>
 </div>
 <div id="footer"></div>
+<script type="text/javascript" src="{{ url_for('static', filename='js/graph.js') }}"></script>
 {% endblock %}

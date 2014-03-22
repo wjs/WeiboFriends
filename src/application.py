@@ -13,8 +13,8 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def index():
-    return render_template('index.html')
+def index2():
+    return render_template('index2.html')
 
 
 @app.route('/search', methods=['GET'])
@@ -42,10 +42,28 @@ def change_graph():
 	return json
 
 
+# @app.route('/graph', methods=['GET'])
+# def get_graph():
+# 	uid = request.args.get('uid')
+# 	return render_template('graph2.html', uid=uid)
 @app.route('/graph', methods=['GET'])
 def get_graph():
-	uid = request.args.get('uid')
-	return render_template('graph.html', uid=uid)
+	self_uid = request.args.get('uid')
+	self = db.query_user(self_uid)
+	nodes = '"nodes":[{"uid":' + self[0] + ', "nick":"' + self[1] + '", "follows":' + str(self[2]) + ', "fans":' + str(self[3]) + '},'
+	links = '"links":['
+	follows = db.query_follows(self_uid)
+	if follows:
+		for row in follows:
+			nodes += '{"uid":' + row[0] + ', "nick":"' + row[1] + '", "follows":' + str(row[2]) + ', "fans":' + str(row[3]) + '},'
+			links += '{"source":' + self_uid + ',"target":' + row[0] + '},'
+		nodes = nodes[:-1] + ']'
+		links = links[:-1] + ']'
+	else:
+		nodes = nodes[:-1] + ']'
+		links += ']'
+	text = '{' + nodes + ', ' + links + '}'
+	return text
 
 
 @app.route('/login', methods=['POST'])
@@ -53,7 +71,7 @@ def login():
 	username = request.form['username']
 	pwd = request.form['pwd']
 	graph.genarate_graph_from_web(username, pwd)
-	return render_template('index.html')
+	return render_template('index2.html')
 
 @app.route('/crawl', methods=['POST'])
 def autocrawl():
@@ -61,8 +79,8 @@ def autocrawl():
 	username = request.form['username']
 	pwd = request.form['pwd']
 	weibo_crawl.crawl_by_uid(crawl_uid, username, pwd)
-	return render_template('index.html')
+	return render_template('index2.html')
 
 
 if __name__ == '__main__':
-	app.run(port=8080, debug=True)
+	app.run(host='0.0.0.0', port=8080, debug=True)
