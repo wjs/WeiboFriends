@@ -86,6 +86,14 @@ WeiboGraph.prototype.findNodeIndex = function(uid) {
 	return -1;
 }
 
+WeiboGraph.prototype.clearNodes = function() {
+	this.nodes.length = 0;
+}
+
+WeiboGraph.prototype.clearLinks = function() {
+	this.links.length = 0;
+}
+
 WeiboGraph.prototype.update = function() {
 	var link = this.vis.selectAll('line.link')
 						.data(this.links, function(d) { return d.source.uid + '-' + d.target.uid; })
@@ -105,18 +113,23 @@ WeiboGraph.prototype.update = function() {
 
 	nodeEnter.append('svg:image')
 			.attr('class', 'circle')
-			.attr('xlink:href', function(d) { return "http://ww4.sinaimg.cn/large/412e82dbjw1dsbnxezrrpj.jpg";})
-			.attr('x', '-32px')
-			.attr('y', '-32px')
-			.attr('width', '64px')
-			.attr('height', '64px')
+			.attr('xlink:href', function(d) { return 'http://tp2.sinaimg.cn/' + d.uid + '/50/0/1';})
+			.attr('x', '-25px')
+			.attr('y', '-25px')
+			.attr('width', '30px')
+			.attr('height', '30px')
+			.attr('border-radius', '25px')
+			.attr('border', '2px solid #ddd')
+			.on('mouseover', function(d) {
+				// alert('uid:'+d.uid+', follows:'+d.follows+', fans:'+d.fans);
+			})
 			.on('dblclick',function(d){ 
-				alert(d.uid);
+				changeGraphAjax(d.uid);
 			})
 
 	nodeEnter.append('svg:text')
 			.attr('class', 'nodetext')
-			.attr('dx', 15)
+			.attr('dx', -30)
 			.attr('dy', -35)
 			.text(function(d) { return d.nick });
 
@@ -127,3 +140,25 @@ WeiboGraph.prototype.update = function() {
 
 /*-- Init global variable ---------------------------------------*/
 var weiboGraph = new WeiboGraph('graph');
+
+function changeGraphAjax(uid) {
+	$.ajax({
+		type: 'GET',
+		url: $SCRIPT_ROOT + '/graph',
+		contentType: 'application/json; charset=utf-8',
+		data: {'uid': uid},
+		success: function(data) {
+			json = eval("("+data+")");
+
+			weiboGraph.clearNodes();
+			weiboGraph.clearLinks();
+			weiboGraph.addNodes(json.nodes);
+			weiboGraph.addLinks(json.links);
+			weiboGraph.update();
+		},
+		error: function(data) {
+			$('#loading-div').hide();
+			alert('Ajax to get graph occur error.')
+		}
+	});
+}

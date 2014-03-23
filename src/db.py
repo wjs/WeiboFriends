@@ -67,6 +67,8 @@ def search_user(keyword):
     try:
         cursor = db_connection.cursor()
         count = cursor.execute('select * from user where uid like "%'+keyword+'%" or nick like "%'+keyword+'%"')
+        if count > 50:
+            return cursor.fetchmany(50)
         return cursor.fetchall()
     except Exception, e:
         print '>>>[Error: DB search_user]', keyword, e

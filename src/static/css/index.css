@@ -99,8 +99,8 @@ a {
 }
 
 #search-input {
-	width: 205px;
-	height: 21px;
+	width: 215px;
+	height: 30px;
 	margin: 5px 4px;
 	padding: 5px 5px;
 	border-radius: 10px;
@@ -109,17 +109,17 @@ a {
 }
 
 .bubble-box {
-	display: none;
 	position: relative;
 	width: 300px;
 	height: 240px;
 	top: 40px;
-	left: 180px;
+	left: 90px;
 	background: url(/static/images/bubble-box.png) no-repeat;
 	background-size: 100% 100%;
 	z-index: 1000;
+	display: none;
 }
-#header .nav .bubble-box input {
+.bubble-box input {
 	width: 260px;
 	height: 24px;
 	margin: 5px 15px;
@@ -128,19 +128,28 @@ a {
 	border: none;
 	font-size: 120%;
 }
-#header .nav .bubble-box input:focus {
+.bubble-box input:focus {
 	border: 1px solid #ccc;
 }
-#header .nav .bubble-box #login-btn {
-	margin: 15px 0 0 185px;
+#login-btn {
+	float: right;
+	margin: 10px 15px 0 0;
 	width: 100px;
 	height: 33px;
 	background-color: #d6d6d6;
 }
-#header .nav .bubble-box #login-btn:hover {
+#login-btn:hover {
 	background-color: #ccc;
 }
-
+#bubble-box-error {
+	float: left;
+	margin: 15px 0 0 15px;
+	width: 160px;
+	height: 40px;
+	word-wrap: break-word;
+	word-break: break-all;
+	color: red;
+}
 
 /*--------------------------------------------*/
 #body {
@@ -171,6 +180,13 @@ a {
     -moze-user-select:none;
     stroke-linejoin:bevel;
     
+}
+.circle {
+	width: 30px;
+    height: 30px;
+    border: 2px solid #ddd;
+    border-radius: 25px;
+    cursor: pointer;
 }
 
 iframe {

@@ -29,17 +29,17 @@ def search():
 	return Response(json.dumps(json_list), mimetype='application/json')
 
 
-@app.route('/change_graph', methods=['GET'])
-def change_graph():
-	uid = request.args.get('uid')
-	json = '{isSucceed:'
-	user = db.query_user(uid)
-	if user:
-		if graph.genarate_graph(uid):
-			json += 'true, uid:"'+uid+'", nick:"'+user[1]+'", follows:"'+str(user[2])+'", fans:"'+str(user[3])+'", db_follows:"'+str(user[4])+'", db_fans:"'+str(user[5])+'"}'
-			return json
-	json += 'false, uid:"' + uid + '"}'
-	return json
+# @app.route('/change_graph', methods=['GET'])
+# def change_graph():
+# 	uid = request.args.get('uid')
+# 	json = '{isSucceed:'
+# 	user = db.query_user(uid)
+# 	if user:
+# 		if graph.genarate_graph(uid):
+# 			json += 'true, uid:"'+uid+'", nick:"'+user[1]+'", follows:"'+str(user[2])+'", fans:"'+str(user[3])+'", db_follows:"'+str(user[4])+'", db_fans:"'+str(user[5])+'"}'
+# 			return json
+# 	json += 'false, uid:"' + uid + '"}'
+# 	return json
 
 
 # @app.route('/graph', methods=['GET'])
@@ -62,24 +62,25 @@ def get_graph():
 	else:
 		nodes = nodes[:-1] + ']'
 		links += ']'
-	text = '{' + nodes + ', ' + links + '}'
-	return text
+	
+	return '{' + nodes + ', ' + links + '}'
 
 
-@app.route('/login', methods=['POST'])
-def login():
-	username = request.form['username']
-	pwd = request.form['pwd']
-	graph.genarate_graph_from_web(username, pwd)
-	return render_template('index2.html')
+# @app.route('/login', methods=['POST'])
+# def login():
+# 	username = request.form['username']
+# 	pwd = request.form['pwd']
+# 	graph.genarate_graph_from_web(username, pwd)
+# 	return render_template('index2.html')
 
 @app.route('/crawl', methods=['POST'])
 def autocrawl():
-	crawl_uid = request.form['crawl_uid']
-	username = request.form['username']
-	pwd = request.form['pwd']
+	args = request.data.split('&')
+	crawl_uid = args[0].split('=')[1]
+	username = args[1].split('=')[1]
+	pwd = args[2].split('=')[1]
 	weibo_crawl.crawl_by_uid(crawl_uid, username, pwd)
-	return render_template('index2.html')
+	return ''
 
 
 if __name__ == '__main__':

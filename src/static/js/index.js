@@ -36,26 +36,7 @@ $(function() {
 		}
 		if (search_uid != '') {
 			$('#loading-div').show();
-			$.ajax({
-				type: 'GET',
-				url: $SCRIPT_ROOT + '/graph',
-				contentType: 'application/json; charset=utf-8',
-				data: {'uid': search_uid},
-				success: function(data) {
-					json = eval("("+data+")");
-
-					var nodes = json.nodes;
-					var links = json.links;
-
-					weiboGraph.addNodes(nodes);
-					weiboGraph.addLinks(links);
-					weiboGraph.update();
-				},
-				error: function(data) {
-					$('#loading-div').hide();
-					alert('Ajax to get graph occur error.')
-				}
-			});
+			changeGraphAjax(search_uid);
 		} 
 	});
 	$('#search-input').on('input', function (event) {
@@ -72,60 +53,28 @@ $(function() {
 		},"json");
 	});
 	/*---------- end search result ------------*/
-	
-	/*---------- start iframe ------------*/
-	$('iframe').load(function() {
-		$('#loading-div').hide();
-	    $('iframe').show();
-	});
-
-
 });
 
-
-/*function search() {
-	var keyword = $.trim($('#search-input').val());
-	if (keyword != '') {
-		$('#search-result-box').html('');
-		$.ajax({
-			type: 'GET',
-			url: $SCRIPT_ROOT + '/search',
-			contentType: 'application/json; charset=utf-8',
-			data: {'keyword': keyword},
-			success: function(data) {
-				json = eval("("+data+")");
-				var htmlStr = '';
-				for (var i = 0; i < json.length; i++) {
-					htmlStr = '<li id="uid_' + json[i]['uid'] + '">' + json[i]['nick'] + '</li>';
-					$('#search-result-box').append(htmlStr);
-				}
-				$('#search-result-box li').click(function(event) {
-					$('#loading-div').show();
-					$('iframe').hide();
-					uid = $(this).attr('id').replace('uid_', '');
-					$.ajax({
-						type: 'GET',
-						url: $SCRIPT_ROOT + '/change_graph',
-						contentType: 'application/html; charset=utf-8',
-						data: {'uid': uid},
-						success: function(data) {
-							json = eval("("+data+")");
-							if (json.isSucceed) {
-								//$('#user_info').html('uid:"'+json.uid+'", nick:"'+json.nick+'", follows:"'+json.follows+'", fans:"'+json.fans+'", db_follows:"'+json.db_follows+'", db_fans:"'+json.db_fans+'"}');
-								$('iframe').attr('src', '/graph?uid='+json.uid);
-							} else {
-								alert('Get graph failed.')
-							}
-						},
-						error: function(data) {
-							$('#loading-div').hide();
-							$('iframe').show();
-							alert('Ajax to get graph occur error.')
-						}
-					});
-				});
-				$('#search-result-box').show();
-			}
-		});
+function crawl() {
+	var crawl_uid = $.trim($('#crawl_uid').val());
+	var username = $.trim($('#username').val());
+	var pwd = $.trim($('#pwd').val());
+	if (crawl_uid == '' || username == '' || pwd == '') {
+		$('#bubble-box-error').html('Please check your input.');
+		return;
 	}
-}*/
+	$.ajax({
+		type: 'POST',
+		url: $SCRIPT_ROOT + '/crawl',
+		contentType: 'application/json; charset=urf-8',
+		data: { 'crawl_uid': crawl_uid,
+				'username': username,
+				'pwd': pwd},
+		success: function(data) {
+			// json = eval("("+data+")");
+			alert(data);
+		},
+		error: function(data) {
+		}
+	});
+}

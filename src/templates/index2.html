@@ -9,22 +9,19 @@
 		</div>
 		<ul class="nav">
 			<li class="selected"><a href="/">Home</a></li>
-			<li><a>Detail</a></li>
-			<li>
-				<a id="crawl-btn">Crawl</a>
-				<div class="bubble-box" tabindex="0" hidefocus="true">
-					<form action="/crawl" method="post">
-						<input type="text" name="crawl_uid" id="crawl_uid" placeholder="uid for crawl">
-						<input type="text" name="username" id="username" placeholder="account">
-						<input type="password" name="pwd" id="pwd" placeholder="password">
-						<input type="submit" value="Start Crawl" id="login-btn">
-					</form>
-				</div>
-			</li>
+			<li><a id="crawl-btn">Crawl</a></li>
+			<li><a>About</a></li>
 			<li>
 				<input type="search" name="search-input" id="search-input" placeholder="Search" list="search-result" autocomplete="off">
 				<datalist id="search-result"></datalist>
 			</li>
+			<div class="bubble-box" tabindex="0" hidefocus="true">
+				<input type="text" name="crawl_uid" id="crawl_uid" placeholder="uid for crawl">
+				<input type="text" name="username" id="username" placeholder="account">
+				<input type="password" name="pwd" id="pwd" placeholder="password">
+				<span id="bubble-box-error"></span>
+				<input type="button" value="Start Crawl" id="login-btn" onclick="crawl();">
+			</div>
 		</ul>
 	</div>
 </div>
@@ -37,10 +34,10 @@
 				<img src="{{ url_for('static', filename='images/Loading_GIF.gif') }}" alt="Loading...">
 			</div>​ -->
 		</div>
-		<div class="toolbar">
+		<!-- <div class="toolbar">
 			<span id="show-follows-btn"></span>
 			<ul id="search-result-box"></ul>
-		</div>
+		</div> -->
 	</div>
 </div>
 <div id="footer"></div>
