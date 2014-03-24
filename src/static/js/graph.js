@@ -14,10 +14,23 @@ function WeiboGraph(ele) {
              	.attr("width", w)
              	.attr("height", h)
              	.attr("pointer-events", "all");
+
+    var defs = this.vis.append('svg:defs');
+	defs.append('svg:rect')
+		.attr('id', 'rect')
+		.attr('x', '0')
+		.attr('y', '0')
+		.attr('width', '50')
+		.attr('height', '50')
+		.attr('rx', '25');
+	var chipPath = defs.append('svg:clipPath')
+						.attr('id', 'circle-img');
+	chipPath.append('svg:use')
+			.attr('xlink:href', '#rect');
 	
 	this.force.on("tick", function(x) {
 		self.vis.selectAll('g.node')
-				.attr('transform', function(d) { return 'translate('+d.x+','+d.y+')'; });	
+				.attr('transform', function(d) { return 'translate('+(d.x-25)+','+(d.y-25)+')'; });	
 		self.vis.selectAll('line.link')
 				.attr('x1', function(d) { return d.source.x; })
 				.attr('y1', function(d) { return d.source.y; })
@@ -110,27 +123,39 @@ WeiboGraph.prototype.update = function() {
 	var nodeEnter = node.enter().append('svg:g')
 						.attr('class', 'node')
 						.call(this.force.drag);
+	
 
-	nodeEnter.append('svg:image')
+	/*nodeEnter.append('svg:image')
 			.attr('class', 'circle')
 			.attr('xlink:href', function(d) { return 'http://tp2.sinaimg.cn/' + d.uid + '/50/0/1';})
 			.attr('x', '-25px')
 			.attr('y', '-25px')
-			.attr('width', '30px')
-			.attr('height', '30px')
-			.attr('border-radius', '25px')
-			.attr('border', '2px solid #ddd')
+			.attr('width', '50px')
+			.attr('height', '50px')
 			.on('mouseover', function(d) {
 				// alert('uid:'+d.uid+', follows:'+d.follows+', fans:'+d.fans);
 			})
 			.on('dblclick',function(d){ 
 				changeGraphAjax(d.uid);
+			})*/
+	nodeEnter.append('svg:image')
+			.attr('clip-path', 'url(#circle-img)')
+			.attr('xlink:href', function(d) { return 'http://tp2.sinaimg.cn/' + d.uid + '/50/0/1';})
+			.attr('width', '50px')
+			.attr('height', '50px')
+			.on('mouseover', function(d) {
+				this.css('width', '70px');
+				this.css('height', '70px');
+				// alert('uid:'+d.uid+', follows:'+d.follows+', fans:'+d.fans);
 			})
-
+			.on('dblclick',function(d){ 
+				changeGraphAjax(d.uid);
+			});
+	
 	nodeEnter.append('svg:text')
 			.attr('class', 'nodetext')
-			.attr('dx', -30)
-			.attr('dy', -35)
+			.attr('dx', 0)
+			.attr('dy', -5)
 			.text(function(d) { return d.nick });
 
 	node.exit().remove();

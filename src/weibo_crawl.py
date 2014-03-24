@@ -103,9 +103,8 @@ def get_weibo_relation(uid):
 
     user = db.query_user(uid)
     if user:
-        print user
         try:
-            totalFollowsNum = l[2]
+            totalFollowsNum = user[2]
 
             req = urllib2.Request(url='http://weibo.com/'+uid+'/follow',)
             result = urllib2.urlopen(req)

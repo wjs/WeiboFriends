@@ -28,18 +28,17 @@
 <hr class="hide">
 <div id="body">
 	<div class="wrap">
-		<div id="graph">
-			<!-- <iframe src="/graph" frameborder="0"></iframe>
-			<div id='loading-div'>
-				<img src="{{ url_for('static', filename='images/Loading_GIF.gif') }}" alt="Loading...">
-			</div>​ -->
-		</div>
-		<!-- <div class="toolbar">
-			<span id="show-follows-btn"></span>
-			<ul id="search-result-box"></ul>
-		</div> -->
+		<div id="graph"></div>
 	</div>
 </div>
 <div id="footer"></div>
+<div id="profile">
+	<img id="pic" src="http://tp2.sinaimg.cn/3206872260/50/0/1" alt="">
+	<ul>
+		<li id="nick">asdfasdfasdf</li>
+		<li id="follows">234</li>
+		<li id="fans">1234</li>
+	</ul>
+</div>
 <script type="text/javascript" src="{{ url_for('static', filename='js/graph.js') }}"></script>
 {% endblock %}
